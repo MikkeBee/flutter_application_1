@@ -20,7 +20,16 @@ class RecipePage extends StatelessWidget {
   }
 
   Widget _buildUI(BuildContext context) {
-    return Column(children: [_recipeImage(context), _recipeDetails(context)]);
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _recipeImage(context),
+          _recipeDetails(context),
+          _recipeIngredients(context),
+          _recipeInstructions(context),
+        ],
+      ),
+    );
   }
 
   Widget _recipeImage(BuildContext context) {
@@ -63,6 +72,40 @@ class RecipePage extends StatelessWidget {
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _recipeIngredients(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      width: MediaQuery.sizeOf(context).width,
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+      child: Column(
+        children: recipe.ingredients.map((i) {
+          return Row(children: [const Icon(Icons.check_box), Text(" $i")]);
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _recipeInstructions(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      width: MediaQuery.sizeOf(context).width,
+      padding: const EdgeInsets.only(bottom: 30, top: 15, left: 20, right: 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: recipe.instructions.map((i) {
+          return Text(
+            "${recipe.instructions.indexOf(i) + 1}. $i\n",
+            maxLines: 3,
+            textAlign: TextAlign.start,
+            style: const TextStyle(fontSize: 15),
+          );
+        }).toList(),
       ),
     );
   }
